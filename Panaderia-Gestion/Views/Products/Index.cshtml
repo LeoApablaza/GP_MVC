@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Panaderia_Gestion.Models.Products>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+    <div class="container-fluid">
+        
+            
+           <h2 class="h4 mb-2 text-gray-800">LISTA DE PRODUCTOS</h2>
+            
+            <div class="my-2">
+                <a href="/Products/Create" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">Agregar producto</span>
+                </a>
+            </div>
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.product_ID)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.price)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.sale_type)
+                                </th>
+                                <th>Editar  <i class="fas fa-exclamation-triangle"></i></th>
+                                <th>Eliminar  <i class="fas fa-trash"></i></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.product_ID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.sale_type)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { id = item.product_ID }, new { @class = "btn btn-warning" })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+    </div>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panaderia-Gestion", "Panaderia-Gestion\Panaderia-Gestion.csproj", "{146BA58B-34B2-44A6-9E8C-7A335296E4A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{146BA58B-34B2-44A6-9E8C-7A335296E4A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{146BA58B-34B2-44A6-9E8C-7A335296E4A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{146BA58B-34B2-44A6-9E8C-7A335296E4A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{146BA58B-34B2-44A6-9E8C-7A335296E4A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5AB8591-7607-4BCB-B279-32935DCA970E}
+	EndGlobalSection
+EndGlobal
