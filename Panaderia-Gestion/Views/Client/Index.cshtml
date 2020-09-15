@@ -9,13 +9,15 @@
 
         <h2 class="h4 mb-2 text-gray-800">LISTA DE CLIENTES</h2>
 
-        <div class="my-2">
-            <a href="/Client/Create" class="btn btn-primary btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-arrow-right"></i>
-                </span>
-                <span class="text">Agregar cliente</span>
-            </a>
+        <div class="row justify-content-end" align="right">
+            <div class="my-2 mr-3">
+                <a href="/Client/Create" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">Agregar cliente</span>
+                </a>
+            </div>
         </div>
         <div class="card shadow mb-4">
             <div class="card-body">
@@ -40,30 +42,30 @@
 
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.client_ID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.phone)
-                                </td>
-                                <td>
-                                    <div class="card-deck ml-1 py-3 pl-4 border-left-danger">
-                                        @Html.DisplayFor(modelItem => item.debt)
-                                    </div>
-                                    
-                                   
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Editar", "Edit", new { id = item.client_ID }, new {@class = "btn btn-warning"})
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ }, new {@class = "btn btn-danger" })
-                                </td>
-                            </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.client_ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.phone)
+                        </td>
+                        <td>
+                            <div class="card-deck ml-1 py-3 pl-4 border-left-danger">
+                                @Html.DisplayFor(modelItem => item.debt)
+                            </div>
+
+                        </td>
+                        
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.client_ID }, new { @class = "btn btn-warning" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Eliminar", "Delete", new {  id=item.client_ID  }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
                          }
 
 

@@ -9,14 +9,26 @@
             
            <h2 class="h4 mb-2 text-gray-800">LISTA DE PRODUCTOS</h2>
             
-            <div class="my-2">
-                <a href="/Products/Create" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-right"></i>
-                    </span>
-                    <span class="text">Agregar producto</span>
-                </a>
-            </div>
+           <div class="row justify-content-end" align="right">
+               <div class="col-3 mb-2">
+                   <a href="/Products/Create" class="btn btn-primary btn-icon-split">
+                       <span class="icon text-white-50">
+                           <i class="fas fa-arrow-right"></i>
+                       </span>
+                       <span class="text">Agregar producto</span>
+
+                   </a>
+               </div>
+               <div class="col-3 mb-2">
+                   <a href="/History/Index" class="btn btn-warning btn-icon-split">
+                       <span class="icon text-white-50">
+                           <i class="fas fa-list"></i>
+                       </span>
+                       <span class="text">Historial de cambios</span>
+
+                   </a>
+               </div>
+           </div>
             <div class="card shadow mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -33,6 +45,9 @@
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.sale_type)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.bar_code)
                                 </th>
                                 <th>Editar  <i class="fas fa-exclamation-triangle"></i></th>
                                 <th>Eliminar  <i class="fas fa-trash"></i></th>
@@ -54,10 +69,13 @@
                                 @Html.DisplayFor(modelItem => item.sale_type)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.bar_code)
+                            </td>
+                            <td>
                                 @Html.ActionLink("Editar", "Edit", new { id = item.product_ID }, new { @class = "btn btn-warning" })
                             </td>
                             <td>
-                                @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger" })
+                                @Html.ActionLink("Eliminar", "Delete", new { id = item.product_ID }, new { @class = "btn btn-danger" })
                             </td>
                         </tr>
                             }
@@ -66,5 +84,5 @@
                     </div>
                 </div>
             </div>
-
+          
     </div>

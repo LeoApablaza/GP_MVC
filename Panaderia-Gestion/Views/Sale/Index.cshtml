@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Panaderia_Gestion.Models.Sales>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.sale_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.amount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.clientName)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.clientDebt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.productName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.wayToPay)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.total)
+        </th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.sale_ID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.amount)
+    </td>
+
+
+    <td>
+        @Html.DisplayFor(modelItem => item.clientName)
+    </td>
+    
+    <td>
+        @Html.DisplayFor(modelItem => item.clientDebt)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.productName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.price)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.wayToPay)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.total)
+    </td>
+    <td>
+
+        <a href="@Url.Action("Edit", "Sale",new { id = item.sale_ID })" class="btn btn-warning btn-circle">
+            <i class="fas fa-exclamation-triangle"></i>
+        </a>
+    </td>
+    <td>
+        <a href="@Url.Action("Delete", "Sale",new { id = item.sale_ID })" class="btn btn-danger btn-circle">
+            <i class="fas fa-trash"></i>
+        </a>
+    </td>
+</tr>
+}
+
+</table>

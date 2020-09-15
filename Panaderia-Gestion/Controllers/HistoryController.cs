@@ -8,18 +8,15 @@ using System.Web.Mvc;
 
 namespace Panaderia_Gestion.Controllers
 {
-    public class HomeController : Controller
+    public class HistoryController : Controller
     {
-        HomeViewModel HVM = new HomeViewModel();
+        HistoryViewModel HVM = new HistoryViewModel();
 
-        // GET: Home
         public ActionResult Index()
         {
-            Sales sales = HVM.EarningsMonthly();
+            IEnumerable<History> histories = HVM.HistoryList();
 
-            sales.price = sales.total * 12;
-
-            return View(sales);
+            return View(histories);
         }
     }
 }

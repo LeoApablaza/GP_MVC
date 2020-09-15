@@ -1,0 +1,204 @@
+﻿@model Panaderia_Gestion.Models.Sales
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Sales</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="row mx-1 my-2">
+
+    <div class="col-lg-2 ">
+        <div class="card mb-2 border-left-primary">
+            <div class="card-body">
+                Venta # : @Model.sale_ID
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="card mb-2 border-left-warning">
+            <div class="card-body">
+                Fecha : @Model.date
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 px-1">
+        <div class="card mb-2 px-0 border-left-info">
+            <div class="card-body" id="precio">
+                Precio por producto : $ @Model.price
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-2 border-left-success">
+            <div class="card-body" id="ingreso">
+                Ingreso por venta : $ @Model.total
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+<div class="row">
+    <div class="form-group col-lg-6">
+        @Html.LabelFor(model => model.amount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control", @id = "cantidad_ID", maxlength = "10" } })
+            @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group col-lg-6">
+        @Html.LabelFor(model => model.client_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.client_ID, (IEnumerable<SelectListItem>)ViewBag.ClientList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.client_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group col-lg-6">
+        @Html.LabelFor(model => model.clientDebt, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.clientDebt)
+                @Html.ValidationMessageFor(model => model.clientDebt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="form-group col-lg-6">
+        @Html.LabelFor(model => model.product_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.product_ID, (IEnumerable<SelectListItem>)ViewBag.ProductList, new { @class = "form-control", @id = "prod_ID" })
+            @Html.ValidationMessageFor(model => model.product_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group col-lg-6">
+        @Html.LabelFor(model => model.saleType_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.saleType_ID, (IEnumerable<SelectListItem>)ViewBag.TypeList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.saleType_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-lg-6">
+        @Html.LabelFor(model => model.wayToPay_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.wayToPay_ID, (IEnumerable<SelectListItem>)ViewBag.WayToPayList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.wayToPay_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+</div>
+    
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            var cantidad, tipoVenta, sonNumeros;
+
+            const NUMEROS = /[0-9]+$/g;
+
+            var error = $("<span class = 'text-danger'></span>").text("Este campo no puede estar vacio ni contener letras");
+
+
+            function actualizarEstado() {
+
+                $.getJSON('/Sale/ComboEdit', { prod_ID: $('#prod_ID').val(), cantidad_ID: $('#cantidad_ID').val() }, function (data) {
+
+                    $("#precio").text("Precio por producto : $ " + data.price);
+                    $("#ingreso").text("Ingreso por venta : $ " + data.total);
+
+                    $("#saleType_ID").empty();
+
+
+                    tipoVenta = $('<option value = "1"></option>').text(data.saleType);
+
+                    $("#saleType_ID").append(tipoVenta);
+
+
+                })
+
+
+            }
+
+            $("#prod_ID").click(function () {
+
+                cantidad = $('#cantidad_ID').val();
+
+                if (cantidad != "")
+                    actualizarEstado();
+
+
+            })
+
+
+
+            $("#cantidad_ID").keyup(function () {
+
+                cantidad = $('#cantidad_ID').val();
+
+
+
+                sonNumeros = cantidad.match(NUMEROS);
+
+
+                if (cantidad != "" && sonNumeros != null) {
+
+
+                    actualizarEstado();
+                }
+
+                else {
+
+                    bootbox.alert({
+                        message: "La cantidad no puede estar vacia ni contener letras!",
+                        className: 'rubberBand animated'
+                    });
+
+                    $('#cantidad_ID').after(error);
+
+                }
+
+            })
+
+        });
+        
+
+    </script>
+
+
+    @*<script src="~/Content/js/SalesCreate.js"></script>*@
+}

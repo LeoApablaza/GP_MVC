@@ -12,23 +12,32 @@ namespace Panaderia_Gestion.Controllers
     public class UserController : Controller
     {
         UserViewModel UVM = new UserViewModel();
-        User usuario = new User();
+        User user = new User();
         // GET: User
         public ActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult Login(string nombre, string contraseña)
-        {
-            usuario.name = nombre;
-            usuario.password = contraseña;
-            
-            bool existe = UVM.VerifyLogin(usuario);
-            if (existe)
-                return RedirectToAction("Index", "Home");
-            else
-                return View();
+        public ActionResult Login(string userName, string pass)
+        { 
+            try
+            { 
+                bool existe = UVM.VerifyLogin(userName, pass);
+
+                if (existe)
+                    return RedirectToAction("Index", "Home");
+                else
+                { 
+                    ModelState.AddModelError("password", "El nombre de usuario o contraseña son incorrectos");
+                    return View(user);
+                }
+
+            }
+            catch
+            {
+                return View(user);
+            }
         }
 
         public ActionResult Create()
@@ -40,26 +49,21 @@ namespace Panaderia_Gestion.Controllers
         public ActionResult Create(FormCollection UserInfo)
         {
             try
-            { 
-                usuario.name = UserInfo["name"];
-                usuario.lastName = UserInfo["lastName"];
-                usuario.email = UserInfo["email"];
+            {
 
-                if (UserInfo["pass"] == UserInfo["repeatPass"])
-                    usuario.password = UserInfo["pass"];
-                else
-                    return View();
-
-                if (UVM.Create(usuario))
+                if (UVM.Create(UserInfo))
                     return RedirectToAction("Index", "Home");
                 else
-                    return View();
+                {
+                    ModelState.AddModelError("password", "El nombre de usuario o contraseña son incorrectos");
 
-               
+                    return View(user);
+                }
+
             }
-            catch(Exception ex)
+            catch
             {
-                return View();
+                return View(user);
             }
 
         }

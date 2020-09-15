@@ -9,6 +9,9 @@ namespace Panaderia_Gestion.Models
     {
 
         public int user_ID { get; set; }
+
+        public string userName { get; set; }
+
         public string name { get; set; }
 
         public string lastName { get; set; }

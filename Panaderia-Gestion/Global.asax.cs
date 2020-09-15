@@ -1,3 +1,4 @@
+using Panaderia_Gestion.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Panaderia_Gestion
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
         }
     }
 }

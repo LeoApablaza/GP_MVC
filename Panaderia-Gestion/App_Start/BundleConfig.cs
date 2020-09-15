@@ -18,15 +18,20 @@ namespace Panaderia_Gestion
             bundles.Add(new ScriptBundle("~/bundles/js")
                 .Include(
                 "~/Content/vendor/jquery/jquery.min.js",
-                "~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js",
                 "~/Content/vendor/jquery-easing/jquery.easing.min.js",
+                "~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js",
                 "~/Content/js/sb-admin-2.min.js",
+                "~/Content/vendor/bootbox.all.min.js",
+                "~/Content/vendor/bootbox.js",
                 "~/Content/vendor/chart.js/Chart.min.js",
                 "~/Content/js/demo/chart-area-demo.js",
-                "~/Content/js/demo/chart-pie-demo.js"));
-             
-   
- 
+                "~/Content/js/demo/chart-pie-demo.js"
+                ));
+
+
+
         }
+
+        
     }
 }

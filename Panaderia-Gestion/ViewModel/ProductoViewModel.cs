@@ -19,6 +19,7 @@ namespace Panaderia_Gestion.ViewModel
         {
             List<Products> products = new List<Products>();
 
+            
             SqlCommand cmd = new SqlCommand("SP_ListarProducto", cn.Connect());
 
             cmd.CommandType = CommandType.StoredProcedure;
@@ -33,6 +34,8 @@ namespace Panaderia_Gestion.ViewModel
                 p.name = dr["nombre_prod"].ToString();
                 p.price = Convert.ToDecimal(dr["precio"]);
                 p.sale_type = dr["tipo_venta"].ToString();
+                if(dr["codigo_barra"] != DBNull.Value)
+                    p.bar_code = dr["codigo_barra"].ToString();
 
                 products.Add(p);
             }
@@ -48,6 +51,7 @@ namespace Panaderia_Gestion.ViewModel
             cmd.Parameters.AddWithValue("@nombre", p.name);
             cmd.Parameters.AddWithValue("@precio", p.price);
             cmd.Parameters.AddWithValue("@tipo_venta_ID", p.sale_type_ID);
+            cmd.Parameters.AddWithValue("@codigo_barra", p.bar_code);
 
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -88,10 +92,12 @@ namespace Panaderia_Gestion.ViewModel
             return TypeList;
         }
 
-        public Products EditGet(int id)
+        
+
+        public Products GetProducts(int id)
         {
             Products products = new Products();
-            //Crear tabla historial y trigger
+ 
             SqlCommand cmd = new SqlCommand("SP_MostrarProducto", cn.Connect());
             cmd.Parameters.AddWithValue("@producto_ID", id);
 
@@ -104,7 +110,11 @@ namespace Panaderia_Gestion.ViewModel
                 products.name = dr["nombre_prod"].ToString();
                 products.price = Convert.ToDecimal(dr["precio"]);
                 products.sale_type_ID = Convert.ToInt32(dr["tipo_venta_ID"]);
-             
+                products.sale_type = dr["tipo_venta"].ToString();
+
+                if (dr["codigo_barra"] != DBNull.Value)
+                    products.bar_code = dr["codigo_barra"].ToString();
+
             }
             dr.Close();
             cn.Disconnect();
@@ -112,34 +122,93 @@ namespace Panaderia_Gestion.ViewModel
             return products;
         }
 
-        public bool EditPost(Products p)
+        public bool Edit(Products p)
         {
             SqlCommand cmd = new SqlCommand("SP_EditarProducto", cn.Connect());
             cmd.Parameters.AddWithValue("@producto_ID", p.product_ID);
             cmd.Parameters.AddWithValue("@nombre_prod", p.name);
             cmd.Parameters.AddWithValue("@precio", p.price);
             cmd.Parameters.AddWithValue("@tipo_venta_ID", p.sale_type_ID);
+            if(p.bar_code != null)
+                cmd.Parameters.AddWithValue("@codigo_barra", p.bar_code);
+            else
+                cmd.Parameters.AddWithValue("@codigo_barra", "");
 
             cmd.CommandType = CommandType.StoredProcedure;
-
+             
             int i = cmd.ExecuteNonQuery();
+
             cn.Disconnect();
+
             if (i > 0)
                 return true;
             else
                 return false;
         }
 
-        public bool ExistDataBase(Products producto)
+        public bool Delete(int id)
+        {
+            SqlCommand cmd = new SqlCommand("SP_EliminarProducto", cn.Connect());
+
+            cmd.Parameters.AddWithValue("@producto_ID", id);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            int i = cmd.ExecuteNonQuery();
+
+            cn.Disconnect();
+
+            if (i > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public bool ExistBarCode(Products product)
+        {
+            string sql;
+            int i;
+
+            if (product.product_ID == 0)
+                sql = $"SELECT COUNT (codigo_barra) FROM producto WHERE codigo_barra = '{product.bar_code}' AND activo = 1";
+            else
+                sql = $"SELECT COUNT (codigo_barra) FROM producto WHERE codigo_barra = '{product.bar_code}' AND activo = 1 AND producto_ID <> {product.product_ID}";
+
+
+            SqlCommand cmd = new SqlCommand(sql, cn.Connect());
+
+            try
+            {
+                i = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch
+            {
+                i = 1;
+            }
+
+            cn.Disconnect();
+
+            if (i > 0)
+                return true;
+            else
+            {
+                
+                return false;
+            }
+                
+        }
+
+       
+        public bool ExistDataBase(Products product)
         {
 
             string sql;
             int i;
 
-            if (producto.product_ID == 0)
-                sql = $"SELECT COUNT (nombre_prod) FROM producto WHERE nombre_prod = '{producto.name}'";
+            if (product.product_ID == 0)
+                sql = $"SELECT COUNT (nombre_prod) FROM producto WHERE nombre_prod = '{product.name}' AND activo = 1";
             else
-                sql = $"SELECT COUNT (nombre_prod) FROM producto WHERE nombre_prod = '{producto.name}' AND producto_ID <> {producto.product_ID}";
+                sql = $"SELECT COUNT (nombre_prod) FROM producto WHERE nombre_prod = '{product.name}' AND producto_ID <> {product.product_ID} AND activo = 1";
 
             SqlCommand cmd = new SqlCommand(sql, cn.Connect());
 

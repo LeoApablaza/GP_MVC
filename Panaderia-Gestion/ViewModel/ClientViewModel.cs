@@ -33,6 +33,7 @@ namespace Panaderia_Gestion.ViewModel
                 client.name = dr["nombre_cliente"].ToString();
                 client.phone = Convert.ToInt64(dr["telefono"]);
                 client.debt = Convert.ToBoolean(dr["tiene_deuda"]);
+                client.active = Convert.ToBoolean(dr["activo"]);
 
                 clients.Add(client);
 
@@ -64,7 +65,7 @@ namespace Panaderia_Gestion.ViewModel
                     false;
         }
 
-        public Client EditGet(int id)
+        public Client GetClients(int id)
         {
             SqlCommand cmd = new SqlCommand("SP_MostrarCliente", cn.Connect());
 
@@ -92,7 +93,7 @@ namespace Panaderia_Gestion.ViewModel
 
         }
 
-        public bool EditPost(Client c)
+        public bool Edit(Client c)
         {
             SqlCommand cmd = new SqlCommand("SP_EditarCliente", cn.Connect());
             cmd.Parameters.AddWithValue("@cliente_ID", c.client_ID);
@@ -110,14 +111,30 @@ namespace Panaderia_Gestion.ViewModel
                 return false;
         }
 
+        public bool Delete(int id)
+        {
+            SqlCommand cmd = new SqlCommand("SP_EliminarCliente", cn.Connect());
+            cmd.Parameters.AddWithValue("@cliente_ID", id);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            int i = cmd.ExecuteNonQuery();
+
+            cn.Disconnect();
+
+            if (i > 0) return true;
+
+            else return false;
+        }
+
         public bool ExistDataBase(Client c)
         {
             string sql;
             int i;
             if (c.client_ID == 0)
-                sql = $"SELECT COUNT(nombre_cliente) FROM cliente WHERE nombre_cliente = '{c.name}' ";
+                sql = $"SELECT COUNT(nombre_cliente) FROM cliente WHERE nombre_cliente = '{c.name}' AND activo = 1";
             else
-                sql = $"SELECT COUNT(nombre_cliente) FROM cliente WHERE nombre_cliente = '{c.name}' AND cliente_ID <> {c.client_ID}";
+                sql = $"SELECT COUNT(nombre_cliente) FROM cliente WHERE nombre_cliente = '{c.name}' AND cliente_ID <> {c.client_ID} AND activo = 1";
 
             SqlCommand cmd = new SqlCommand(sql, cn.Connect());
 

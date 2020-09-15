@@ -24,13 +24,24 @@
         </div>
     </div>
 
+
+
     <div class="form-group">
         @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
             @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.bar_code, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.bar_code, new { htmlAttributes = new { @class = "form-control", id = "codigoBarra_ID", autocomplete = "off" } })
+            @Html.ValidationMessageFor(model => model.bar_code, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
 
     <div class="form-group">
         @Html.LabelFor(model => model.sale_type, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -41,12 +52,12 @@
         <div class="form-group" hidden>
             @Html.DropDownListFor(model => model.sale_type, (IEnumerable<SelectListItem>)ViewBag.TypeList, new { @class = "form-control" })
         </div>
-        
+
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" value="Create" class="btn btn-default" id="boton" />
         </div>
     </div>
 </div>
@@ -55,3 +66,25 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            const ENTER = 13;
+ 
+            $('#codigoBarra_ID').keypress(function (event) {
+
+                console.log(event);
+
+                if (event.which == ENTER) {
+                    event.preventDefault();
+                }
+            });
+        
+        });
+    </script>
+
+
+}

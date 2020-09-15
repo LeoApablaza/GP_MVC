@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -19,5 +20,7 @@ namespace Panaderia_Gestion.Models
 
         [DisplayName("Tiene deuda")]
         public bool debt { get; set; }
+
+        public bool active { get; set; }
     }
 }

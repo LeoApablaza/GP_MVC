@@ -1,4 +1,4 @@
-﻿
+﻿@model Panaderia_Gestion.Models.User
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
@@ -18,30 +18,34 @@
                             <h1 class="h4 text-gray-900 mb-4">Crear usuario</h1>
                         </div>
                         <form action="@Url.Content("~/User/Create")" class="user" method="post">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user" name="userName" placeholder="Nombre de usuario" required>
+                            </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" name="name" placeholder="Nombre" required>
+                                    <input type="text" class="form-control form-control-user" name="name" placeholder="Nombre" required autocomplete="off">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" name="lastName" placeholder="Apellido" required>
+                                    <input type="text" class="form-control form-control-user" name="lastName" placeholder="Apellido" required autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-user" name="email" placeholder="Correo electronico">
+                                <input type="email" class="form-control form-control-user" name="email" placeholder="Correo electronico" ♣>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" name="pass" placeholder="Contraseña" required>
+                                    <input type="password" class="form-control form-control-user" name="pass" placeholder="Contraseña" required autocomplete="off" pattern=".{6,}" title="La contraseña debe tener 6 caracteres como minimo">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control form-control-user" name="repeatPass" placeholder="Repetir contraseña" required>
+                                    <input type="password" class="form-control form-control-user" name="repeatPass" placeholder="Repetir contraseña" required autocomplete="off">
+                                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary btn-user btn-block" value="Entrar" />
                             </div>
-                            
-                            
+
+
                         </form>
                         <hr>
                         <div class="text-center">
@@ -57,3 +61,44 @@
     </div>
 
 </div>
+
+@section Scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            //variables
+            var pass1 = $('[name=pass]');
+            var pass2 = $('[name=repeatPass]');
+
+            var negacion = "No coinciden las contraseñas";
+            var confirmacion = "Las contraseñas coinciden";
+
+            var span = $('<span class = "text-danger"></span>').insertAfter(pass2);
+            span.hide();
+            //función que comprueba las dos contraseñas
+            function coincidePassword() {
+                var valor1 = pass1.val();
+                var valor2 = pass2.val();
+                //muestro el span
+                span.show().removeClass();
+                //condiciones dentro de la función
+                if (valor1 != valor2) {
+                    span.text(negacion).addClass('negacion');
+                }
+                if (valor1 == valor2) {
+                    span.text(confirmacion).removeClass("negacion")
+                        .addClass('confirmacion');
+                }
+                if (valor2 == "") {
+                    span.hide();
+                }
+
+            }
+
+            pass2.keyup(function () {
+                coincidePassword();
+            });
+        });
+    </script>
+}

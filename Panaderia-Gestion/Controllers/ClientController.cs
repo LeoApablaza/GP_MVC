@@ -27,6 +27,7 @@ namespace Panaderia_Gestion.Controllers
         [HttpPost]
         public ActionResult Create(Client client)
         {
+            
 
             if (ModelState.IsValid)
             {
@@ -52,7 +53,7 @@ namespace Panaderia_Gestion.Controllers
         {
             Client client = new Client();
 
-            client = CVM.EditGet(id);
+            client = CVM.GetClients(id);
 
             return View(client);
         }
@@ -68,11 +69,29 @@ namespace Panaderia_Gestion.Controllers
                 }
                 else
                 {
-                    CVM.EditPost(c);
+                    CVM.Edit(c);
                     return RedirectToAction("Index");
                 }
             
             return View(c);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            Client client = new Client();
+
+            client = CVM.GetClients(id);
+
+            return View(client);
+        }
+
+
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            CVM.Delete(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

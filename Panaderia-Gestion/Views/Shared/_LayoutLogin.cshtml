@@ -20,9 +20,12 @@
 
 <body class="bg-gradient-primary">
     @RenderBody()
-   
+
 
     @System.Web.Optimization.Scripts.Render("~/bundles/js")
+
+    @RenderSection("scripts", required: false)
+
 </body>
 
 </html>

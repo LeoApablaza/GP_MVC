@@ -31,14 +31,26 @@ namespace Panaderia_Gestion.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(PVM.ExistDataBase(products))
+                if (PVM.ExistDataBase(products))
                 {
-                    ModelState.AddModelError("Name","El producto ya existe");
+                    ModelState.AddModelError("Name", "El producto ya existe");
+
+                    ViewBag.TypeList = new SelectList(PVM.SaleTypeListing(), "sale_type_ID", "sale_type");
+
+                    return View(products);
+                }
+                else if (PVM.ExistBarCode(products))
+                {
+                    ModelState.AddModelError("bar_code", "El código ya le pertenece a otro producto");
+
+                    ViewBag.TypeList = new SelectList(PVM.SaleTypeListing(), "sale_type_ID", "sale_type");
+
                     return View(products);
                 }
                 else
                 { 
-                PVM.Create(products);
+                    PVM.Create(products);
+
                     return RedirectToAction("Index");
                 }
             }
@@ -51,7 +63,7 @@ namespace Panaderia_Gestion.Controllers
 
         public ActionResult Edit(int id)
         {
-           Products products= PVM.EditGet(id);
+           Products products= PVM.GetProducts(id);
             
             ViewBag.TypeList = new SelectList(PVM.SaleTypeListing(), "sale_type_ID", "sale_type", products.sale_type_ID);
 
@@ -65,11 +77,22 @@ namespace Panaderia_Gestion.Controllers
                 if (PVM.ExistDataBase(p))
                 {
                     ModelState.AddModelError("name", "El nombre ingresado ya existe");
+
+                    ViewBag.TypeList = new SelectList(PVM.SaleTypeListing(), "sale_type_ID", "sale_type");
+
+                    return View(p);
+                }
+                else if (PVM.ExistBarCode(p))
+                {
+                    ModelState.AddModelError("bar_code", "El código ingresado ya existe");
+
+                    ViewBag.TypeList = new SelectList(PVM.SaleTypeListing(), "sale_type_ID", "sale_type");
+
                     return View(p);
                 }
                 else
                 {
-                    PVM.EditPost(p);
+                    PVM.Edit(p);
                     return RedirectToAction("Index", "Products");
                 }
             }
@@ -77,8 +100,26 @@ namespace Panaderia_Gestion.Controllers
             else
             {
                 ViewBag.TypeList = new SelectList(PVM.SaleTypeListing(), "sale_type_ID", "sale_type");
+
                 return View(p);
             }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            
+           Products product =  PVM.GetProducts(id);
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+
+        {
+            PVM.Delete(id);
+
+            return RedirectToAction("Index");
         }
     }
 }
